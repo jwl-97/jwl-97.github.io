@@ -4,8 +4,11 @@
   {% include head.html %}
 
   <body>
-
     {% include navigation.html %}
+
+    {% if page.project-header == true %}
+        {% include project-header.html %}
+    {% endif %}
 
     <main>
       {{ content }}
