@@ -2,10 +2,10 @@
 layout: post
 title:  "test"
 type: "test"
-post: true
+memoirs: true
 text: true
-date:   2021-02-20
+date:   2021-02-21
 author: "Jiwoo Lee"
 ---
 
-# 1
+# 3

@@ -81,12 +81,40 @@ footer,
 }
 
 footer {
-  font-family: $serif-secondary;
-  padding: 2rem 0;
-  text-align: center;
+    font-family: $serif-secondary;
+    padding: 26px 0 26px 0;
+    
+    .footer_wrap {
+        font-style: normal;
+        position: relative;
 
-  span {
-    color: $default-color;
-    font-size: .8rem;
-  }
+        .information {
+            .accounts {
+                margin-top: 36px;
+                a {
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    svg {
+                        fill: $default-color;
+                        width: 20px;
+                    }
+                }
+            }
+        }
+        .copyright {
+            float: right;
+            position: absolute;
+            right: 0;
+            bottom: 2px;
+
+            @media (max-width: 670px) {
+                float: none;
+                position: static;
+                margin-top: 6px;
+            }
+            span {
+                font-size: 16px;
+            }
+        }
+    }
 }
