@@ -6,6 +6,7 @@ post: true
 text: true
 date:   2021-03-01
 author: "Jiwoo Lee"
+comments: true
 ---
 
 <br>
@@ -117,4 +118,4 @@ if (!PreferenceUnit.getInstance().preIsRealStop) {
 <br>
 ## 코드
 전체 코드는 [여기서](https://github.com/jwl-97/Android_immortalService) 볼 수 있다.
-<br><br><br>
+<br>

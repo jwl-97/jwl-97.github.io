@@ -9,7 +9,7 @@ footer,
 .nav-container {
   display: block;
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 900px;
   width: 80%;
 }
 
@@ -117,4 +117,14 @@ footer {
             }
         }
     }
+}
+
+.skill_name {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 100px;
+    border: solid 1px $grey-2;
+    font-family: $serif-secondary;
+    font-size: 16px;
+    margin: 0 5px 14px 0;
 }
