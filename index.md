@@ -3,9 +3,9 @@ layout: default
 main: true
 ---
 <br>
-## I'm
+## I'm 
 
-&nbsp;&nbsp;[Canna](https://github.com/jwl-97) (Jiwoo Lee),
+&nbsp;&nbsp;[Canna](https://github.com/jwl-97)🖐 (Jiwoo Lee),
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;a junior Android Developer
 

@@ -9,9 +9,8 @@ author: "Jiwoo Lee"
 comments: true
 ---
 
-<br>
-## 배경
-
+<br><br>
+## 1. 배경
 내가 담당하고 있는 앱 중 하나인 [수퍼드라이버](https://play.google.com/store/apps/details?id=kr.co.avara.rendrivers)의 가장 중요한 기능 중 하나는 `위치서비스`다.<br>
 앱 출시 초창기(20년 6월~8월) 위치 서비스는 가장 큰 이슈중에 하나였다. <br>
 
@@ -24,9 +23,9 @@ comments: true
 따라서 시간이 일주일 이상 흘러감에 따라 정확하지 않은 위치 데이터가 넘어오거나 출근상태임에도 불구하고<br> 
 위치데이터가 들어오지 않는 등 여러가지 변수가 있어 위치 서비스의 안정성이 크게 떨어졌다.<br>
 
-이 때, 이사님(@Ryan)의 제안으로 Immortal Service를 적용하게 되었다.<br><br>
+이 때, 이사님(@Ryan)의 제안으로 Immortal Service를 적용하게 되었다.<br><br><br>
 
-## Immortal Service
+## 2. Immortal Service
 단순히 죽지 않는 서비스이다. <br>
 메인 서비스를 A라고 한다면, 서브 서비스 B를 만들어서<br>
 서로서로 감시하여 onDestroy()가 호출된다면, AlarmManager를 통해 다시 서비스를 킨다.<br>
@@ -37,12 +36,12 @@ AlarmManager가 호출되어 서비스B가 실행되고 다시 서비스A가 실
 
 말로써 푸니까 엄청 복잡해보이는데 코드로 보면 되게 간단하다.<br>
 
-```
+``` kotlin
 // Service A
 class ServiceA : Service() {
     override fun onStartCommand() {      
-        if (intent?.getStringExtra("type")이 B이면){
-            startService(서비스B)
+        if (/**intent?.getStringExtra("type")이 B이면*/){
+            startService(serviceB)
         }
     }
 
@@ -57,22 +56,22 @@ class ServiceA : Service() {
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if(버전 오레오 이상이면){
+        if(/**버전 오레오 이상이면*/){
             intent.putExtra("type", "A")
-            startForegroundService(서비스B)
+            startForegroundService(serviceB)
         }else {
-            startService(서비스A)
+            startService(serviceA)
         }
     }
 }
 ```
 
-```
+```kotlin
 // Service B
 class ServiceB : Service() {
     override fun onStartCommand() {      
-        if (intent?.getStringExtra("type")이 A이면){
-            startService(서비스A)
+        if (/**intent?.getStringExtra("type")이 A이면*/){
+            startService(serviceA)
         }
     }
 
@@ -87,35 +86,35 @@ class ServiceB : Service() {
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if(버전 오레오 이상이면){
+        if(/**버전 오레오 이상이면*/){
             intent.putExtra("type", "B")
-            startForegroundService(서비스A)
+            startForegroundService(serviceA)
         }else {
-            startService(서비스B)
+            startService(serviceB)
         }
     }
 }
 ```
-<br>
+<br><br>
 
-## 서비스 종료
+## 3. 서비스 종료
 추가로, 서비스 종료하는 건 preIsRealStop 변수를 preference에 추가하여 stopService를 할때 <br>
 preIsRealStop값도 같이 변경하여 알람 매니저 호출을 하지 않으면 정상적으로 종료가 된다.
 <br>
-```
+```kotlin
 // MainActivity
 PreferenceUnit.getInstance().preIsRealStop = true //
 stopService(Intent(applicationContext, ServiceA::class.java))
 stopService(Intent(applicationContext, ServiceB::class.java))
 ```
 
-```
+```kotlin
 // In Service
 if (!PreferenceUnit.getInstance().preIsRealStop) {
     callAlarmManger() //
 }
 ```
-<br>
-## 코드
+<br><br>
+## 4. 코드
 전체 코드는 [여기서](https://github.com/jwl-97/Android_immortalService) 볼 수 있다.
-<br>
+<br><br>
