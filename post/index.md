@@ -6,7 +6,7 @@ project-header: true
 ---
 
 <ul class="catalogue">
-{% assign sorted = site.pages | sort: 'order' %}
+{% assign sorted = site.pages | sort: 'date' | reverse %}
 {% for page in sorted %}
 {% if page.post == true %}
 {% include post-list.html %}
