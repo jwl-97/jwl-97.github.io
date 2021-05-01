@@ -55,5 +55,3 @@ print(sum(dp[N-1]) % 1000000000)
 <hr>
 
 <br>
-🔽 앱 동작 사진
-![](img/calculatorApp.jpg)
