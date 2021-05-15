@@ -67,5 +67,5 @@ LayoutInflater을 적용하니 recyclerview adapter나 다른 여러 코드 없�
 
 <br><br>
 ## 3. 코드
-전체 코드는 [여기서](https://github.com/jwl-97/Android_calculatorApp) 볼 수 있다.
+전체 코드는 [여기서](https://github.com/jwl-97/goToBasic/tree/main/3_calculatorApp) 볼 수 있다.
 <br><br>

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "lottoApp"
+title:  "LottoApp"
 type: "MiniProject"
 post: true
 text: true
@@ -85,5 +85,5 @@ numberTextviewList.forEachIndexed { index, textview ->
 
 <br><br>
 ## 5. 코드
-전체 코드는 [여기서](https://github.com/jwl-97/Android_lottoApp) 볼 수 있다.
+전체 코드는 [여기서](https://github.com/jwl-97/goToBasic/tree/main/1_lottoApp) 볼 수 있다.
 <br><br>
