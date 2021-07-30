@@ -13,7 +13,10 @@ main: true
 ### I'm work/worked at 
 <hr>
 |<img width=200/>|<img width=230/>|
-|`비마이카`|2020.10 ~ |
+|`비마이카`|2021.05 ~ |
+||수입차 구독 서비스 [카로](https://play.google.com/store/apps/details?id=co.kr.bemycar.caro) 안드로이드 개발 |
+|<img width=100/>|<img width=100/>|
+||2020.10 ~ 2021.05|
 ||모빌리티 서비스 [렌톡](https://play.google.com/store/apps/details?id=kr.co.avara.rentalk&hl=ko)/[수퍼드라이버](https://play.google.com/store/apps/details?id=kr.co.avara.rendrivers) 안드로이드 개발 |
 |<img width=200/>|<img width=300/>|
 |`렌카`|2020.04 ~ 2020.09|
