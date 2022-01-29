@@ -32,10 +32,70 @@ comments: true
 <br><br>
 <hr><br>
 
-## 2. 
-### 2-1. 
-* 
+## 2. 3A 설정
+### 2-1. 3A란?
+<br><br>
 
+### 2-2. 3A값 세팅
+AWB, AF, AE 각각의 모드를 명시적으로 바꿀수 있다.<br>
+바꿀 수 있는 모든 상태값은 [이 링크](https://source.android.google.cn/devices/camera/camera3_3Amodes?hl=ko)에서 볼 수 있으며, 대부분 
+빠른 자동 초점 조절을 위한 AF_MODE_CONTINUOUS_PICTURE을 많이 사용한다.<br><br>
+
+기존 camera2에서는,<br>
+사진을 찍기위해 생성한 captureRequest의 Builder에 set하여 모드를 세팅하면 되었는데,
+~~~ kotlin
+captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
+~~~
+
+<br>
+cameraX에서는 preview를 선언하기 전 Extender를 사용해서 미리 세팅한다.
+~~~ kotlin
+// Preview
+val previewBuilder = Preview.Builder()
+
+val previewExtender = Camera2Interop.Extender(previewBuilder)
+previewExtender.setCaptureRequestOption(
+    CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+)
+
+val preview = previewBuilder.setTargetAspectRatio(screenAspectRatio)
+    .setTargetRotation(rotation)
+    .build()
+~~~
+
+<br><br>
+또한, Extender에 setSessionCaptureCallback 콜백함수를 달아서, <br>
+리턴되는 [TotalCaptureResult](https://developer.android.com/reference/android/hardware/camera2/TotalCaptureResult)를 통해 3A 상태를 확인할 수 있다.<br><br>
+프로젝트에서는 촬영 가능 상태값을 정의해두고 리턴값에 따라 촬영 버튼의 클릭 가능 여부(enable)를 바꾸어주었다.
+
+~~~kotlin
+previewExtender.setSessionCaptureCallback(object : CameraCaptureSession.CaptureCallback() {
+    override fun onCaptureCompleted(
+        session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult
+    ) {
+        super.onCaptureCompleted(session, request, result)
+
+        val afState = result.get(CaptureResult.CONTROL_AF_STATE)
+        val aeState = result.get(CaptureResult.CONTROL_AE_STATE)
+        val awbState = result.get(CaptureResult.CONTROL_AWB_STATE)
+        val lensState = result.get(CaptureResult.LENS_STATE)
+        Log.d(
+            "TEST",
+            "afState : $afState, awbState : $awbState, aeState : $aeState, lensState : $lensState"
+        )
+
+        val value = afState == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED
+                && awbState == CaptureRequest.CONTROL_AWB_STATE_CONVERGED
+                && lensState == CaptureRequest.LENS_STATE_STATIONARY
+
+        if(value){
+            //shutter on
+        }else{
+            
+        }
+    }
+})
+~~~
 
 <br><br>
 <hr><br>
