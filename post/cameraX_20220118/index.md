@@ -100,6 +100,59 @@ previewExtender.setSessionCaptureCallback(object : CameraCaptureSession.CaptureC
 <br><br>
 <hr><br>
 
+## 3. 수동 포커스 설정 
+기본 카메라를 보면, 자동으로 포커스를 잡다가 화면을 터치할 시 해당 위치 포커스가 된다.<br>
+이후 3-5초 후, 다시 자동 포커스로 돌아가는 것을 확인할 수 있다.<br><br>
+
+주의할 점
+* 위 2-1에서 CONTROL_AF_MODE로 CONTROL_AF_MODE_CONTINUOUS_PICTURE를 설정해두면 아래 코드가 작동하지 않는다.
+* CONTROL_AF_MODE를 건들지 않거나 기본 모드로 설정해 두어야 작동한다.
+<br><br>
+
+~~~kotlin
+activityMainBinding.viewFinder.setOnTouchListener { _, event ->
+    scaleGestureDetector.onTouchEvent(event)
+
+    if (event.action == MotionEvent.ACTION_DOWN) {
+        handler.removeCallbacksAndMessages(null)
+
+        val factory = activityMainBinding.viewFinder.meteringPointFactory
+        val point = factory.createPoint(event.x, event.y)
+        val action = FocusMeteringAction.Builder(point, FocusMeteringAction.FLAG_AF)
+            .setAutoCancelDuration(3, TimeUnit.SECONDS)
+            .build()
+
+        /*
+        * ref
+        * https://groups.google.com/a/android.com/g/camerax-developers/c/h0Q4Al8TXmc
+        *
+        * AF의 기본 설정은 계속해서 초점을 잡는 'CONTROL_AF_MODE_CONTINUOUS_PICTURE'로 되어있고,
+        * startFocusAndMetering() 이 실행되면 위에서 선언한대로
+        * '3초'간 'CONTROL_AF_MODE_AUTO'가 되어 클릭한 부분에 수동으로 초점을 맞출 수 있게된다.
+        * 3초가 지나면 이전 상태인 'CONTROL_AF_MODE_CONTINUOUS_PICTURE'로 다시 돌아간다.
+        */
+        camera.cameraControl.startFocusAndMetering(action)
+        cameraUiContainerBinding?.ivFocusCircle?.apply {
+            visibility = View.VISIBLE
+            x = event.x
+            y = event.y
+        }
+
+        handler.postDelayed({
+            cameraUiContainerBinding?.ivFocusCircle?.visibility = View.INVISIBLE
+        }, 3000)
+    }
+    return@setOnTouchListener true
+}
+~~~
+
+FocusMeteringAction를 이용하여 터치한 좌표에 포커스를 잡고,<br>
+setAutoCancelDuration를 설정해 주어 3초 후 기본상태로 돌아가도록 한다.<br>
+또한, ivFocusCircle 이미지뷰를 만들어서 해당 위치를 명시적으로 보이게 해준다.
+
+<br>
+<hr><br>
+
 ## 3. 코드
 전체 코드는 [여기서](https://github.com/jwl-97/camera-samples/tree/main/CameraXBasic/app/src/main/java/com/android/example/cameraxbasic) 볼 수 있다.
 <br><br>
